@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="system" method="upgrade">
+	<name>plg_system_doctidy</name>
+	<author>sentix GmbH</author>
+	<creationDate>2026-10</creationDate>
+	<copyright>(C) 2026 sentix GmbH</copyright>
+	<license>GNU General Public License version 2 or later</license>
+	<authorEmail>support@sentix.de</authorEmail>
+	<authorUrl>https://www.sentix.de</authorUrl>
+	<version>1.0.0</version>
+	<description>PLG_SYSTEM_DOCTIDY_XML_DESCRIPTION</description>
+	<namespace path="src">DocTidy\Plugin\System\DocTidy</namespace>
+	<files>
+		<folder plugin="doctidy">services</folder>
+		<folder>src</folder>
+	</files>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/plg_system_doctidy.ini</language>
+		<language tag="en-GB">en-GB/plg_system_doctidy.sys.ini</language>
+		<language tag="de-DE">de-DE/plg_system_doctidy.ini</language>
+		<language tag="de-DE">de-DE/plg_system_doctidy.sys.ini</language>
+	</languages>
+	<updateservers>
+		<server type="extension" priority="1" name="DocTidy">https://raw.githubusercontent.com/sentixGmbH/joomla-doctidy/main/updates.xml</server>
+	</updateservers>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="local_fontawesome" type="radio" layout="joomla.form.field.radio.switcher" default="1"
+					label="PLG_SYSTEM_DOCTIDY_LOCAL_FA_LABEL" description="PLG_SYSTEM_DOCTIDY_LOCAL_FA_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field name="local_fontawesome_scope" type="list" default="all" showon="local_fontawesome:1"
+					label="PLG_SYSTEM_DOCTIDY_LOCAL_FA_SCOPE_LABEL" description="PLG_SYSTEM_DOCTIDY_LOCAL_FA_SCOPE_DESC">
+					<option value="all">PLG_SYSTEM_DOCTIDY_SCOPE_ALL</option>
+					<option value="edocman">PLG_SYSTEM_DOCTIDY_SCOPE_EDOCMAN</option>
+				</field>
+				<field name="single_h1_document" type="radio" layout="joomla.form.field.radio.switcher" default="1"
+					label="PLG_SYSTEM_DOCTIDY_SINGLE_H1_LABEL" description="PLG_SYSTEM_DOCTIDY_SINGLE_H1_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field name="list_headlines" type="radio" layout="joomla.form.field.radio.switcher" default="1"
+					label="PLG_SYSTEM_DOCTIDY_LIST_HEADLINES_LABEL" description="PLG_SYSTEM_DOCTIDY_LIST_HEADLINES_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field name="list_headline_class" type="text" default="doctidy-headline" showon="list_headlines:1"
+					label="PLG_SYSTEM_DOCTIDY_LIST_HEADLINE_CLASS_LABEL" description="PLG_SYSTEM_DOCTIDY_LIST_HEADLINE_CLASS_DESC" />
+				<field name="title_rewrite" type="radio" layout="joomla.form.field.radio.switcher" default="0"
+					label="PLG_SYSTEM_DOCTIDY_TITLE_LABEL" description="PLG_SYSTEM_DOCTIDY_TITLE_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field name="title_prefix" type="text" default="" filter="raw" showon="title_rewrite:1"
+					label="PLG_SYSTEM_DOCTIDY_TITLE_PREFIX_LABEL" description="PLG_SYSTEM_DOCTIDY_TITLE_PREFIX_DESC" />
+				<field name="title_suffix_category" type="text" default="" filter="raw" showon="title_rewrite:1"
+					label="PLG_SYSTEM_DOCTIDY_TITLE_SUFFIX_CATEGORY_LABEL" description="PLG_SYSTEM_DOCTIDY_TITLE_SUFFIX_CATEGORY_DESC" />
+				<field name="title_suffix_document" type="text" default="" filter="raw" showon="title_rewrite:1"
+					label="PLG_SYSTEM_DOCTIDY_TITLE_SUFFIX_DOCUMENT_LABEL" description="PLG_SYSTEM_DOCTIDY_TITLE_SUFFIX_DOCUMENT_DESC" />
+			</fieldset>
+		</fields>
+	</config>
+</extension>
