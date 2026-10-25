@@ -9,6 +9,7 @@
 
 namespace DocTidy\Plugin\System\DocTidy\Extension;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Event\SubscriberInterface;
@@ -25,17 +26,37 @@ use Joomla\Event\SubscriberInterface;
  */
 final class DocTidy extends CMSPlugin implements SubscriberInterface
 {
-    /** CDN stylesheets of Font Awesome that are replaced by the local copy */
-    private const FA_CDN_PATTERN = '~<link\b[^>]*href="https?://(?:cdnjs\.cloudflare\.com/ajax/libs/font-awesome|cdn\.jsdelivr\.net/npm/@fortawesome|use\.fontawesome\.com|stackpath\.bootstrapcdn\.com/font-awesome|maxcdn\.bootstrapcdn\.com/font-awesome)/[^"]*"[^>]*>\s*~i';
+    /**
+     * CDN stylesheets of Font Awesome that are replaced by the local copy.
+     * Matches http(s) and protocol-relative URLs ("//cdn…") in double or single quotes.
+     */
+    private const FA_CDN_PATTERN = '~<link\b[^>]*\bhref=(["\'])(?:https?:)?//(?:cdnjs\.cloudflare\.com/ajax/libs/font-awesome|cdn\.jsdelivr\.net/npm/@fortawesome|use\.fontawesome\.com|stackpath\.bootstrapcdn\.com/font-awesome|maxcdn\.bootstrapcdn\.com/font-awesome)/[^"\']*\1[^>]*>\s*~i';
+
+    /**
+     * Local Font Awesome candidates, in order of preference. Only a file that also contains the
+     * @font-face definitions is used (Joomla 6 ships them in the vendor file; Joomla 4/5 in
+     * joomla-fontawesome.css) – otherwise icons would render as empty boxes.
+     */
+    private const FA_LOCAL_CANDIDATES = [
+        '/media/vendor/fontawesome-free/css/fontawesome.min.css',
+        '/media/vendor/fontawesome-free/css/all.min.css',
+        '/media/system/css/joomla-fontawesome.min.css',
+    ];
 
     public static function getSubscribedEvents(): array
     {
         return ['onAfterRender' => 'onAfterRender'];
     }
 
+    /** Application access that also works on Joomla 4.0/4.1 (setApplication() exists since 4.2). */
+    private function app()
+    {
+        return method_exists($this, 'getApplication') ? $this->getApplication() : Factory::getApplication();
+    }
+
     public function onAfterRender(): void
     {
-        $app = $this->getApplication();
+        $app = $this->app();
 
         if (!$app->isClient('site') || $app->getDocument()->getType() !== 'html') {
             return;
@@ -80,10 +101,14 @@ final class DocTidy extends CMSPlugin implements SubscriberInterface
     /** Replace the first Font Awesome CDN link with the local copy and drop further ones. */
     private function localFontAwesome(string $body): string
     {
+        if (!preg_match(self::FA_CDN_PATTERN, $body)) {
+            return $body; // nothing to replace – no file access needed
+        }
+
         $local = $this->localFontAwesomeUrl();
 
         if ($local === null) {
-            return $body; // no local copy on this site – leave the page untouched
+            return $body; // no usable local copy on this site – leave the page untouched
         }
 
         $count = 0;
@@ -97,15 +122,27 @@ final class DocTidy extends CMSPlugin implements SubscriberInterface
         );
     }
 
+    /** First local stylesheet that contains the icon classes and the @font-face rules. */
     private function localFontAwesomeUrl(): ?string
     {
-        foreach (['/media/vendor/fontawesome-free/css/fontawesome.min.css', '/media/vendor/fontawesome-free/css/all.min.css'] as $path) {
-            if (is_file(JPATH_ROOT . $path)) {
-                return Uri::root(true) . $path;
+        static $url = false;
+
+        if ($url !== false) {
+            return $url;
+        }
+
+        $url = null;
+
+        foreach (self::FA_LOCAL_CANDIDATES as $path) {
+            $file = JPATH_ROOT . $path;
+
+            if (is_file($file) && strpos((string) file_get_contents($file), '@font-face') !== false) {
+                $url = Uri::root(true) . $path;
+                break;
             }
         }
 
-        return null;
+        return $url;
     }
 
     private function rewriteTitle(string $body, string $view): string

@@ -8,4 +8,6 @@ First public release.
 - EDocman document pages: second `<h1>` (mobile header) becomes a `<div>`.
 - EDocman lists: `<h1>` headlines in short descriptions become paragraphs with a configurable CSS class.
 - Optional rewriting of EDocman page titles (prefix removal, suffixes for categories and documents).
-- Joomla 4, 5 and 6; backend labels in English and German; Joomla update server.
+- Joomla 4, 5 and 6 (also 4.0/4.1, where `setApplication()` does not exist yet); backend labels, explanatory info boxes and field hints in English and German; Joomla update server.
+- Local Font Awesome file is only used if it contains the `@font-face` rules (vendor file on Joomla 6, `joomla-fontawesome.css` on Joomla 4/5), so icons never turn into empty boxes.
+- CDN links are detected with `http(s)://` or protocol-relative `//`, in double or single quotes.

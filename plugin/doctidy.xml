@@ -26,6 +26,8 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
+				<field name="note_privacy" type="note" class="alert alert-info"
+					label="PLG_SYSTEM_DOCTIDY_NOTE_PRIVACY_LABEL" description="PLG_SYSTEM_DOCTIDY_NOTE_PRIVACY_DESC" />
 				<field name="local_fontawesome" type="radio" layout="joomla.form.field.radio.switcher" default="1"
 					label="PLG_SYSTEM_DOCTIDY_LOCAL_FA_LABEL" description="PLG_SYSTEM_DOCTIDY_LOCAL_FA_DESC">
 					<option value="0">JNO</option>
@@ -36,6 +38,8 @@
 					<option value="all">PLG_SYSTEM_DOCTIDY_SCOPE_ALL</option>
 					<option value="edocman">PLG_SYSTEM_DOCTIDY_SCOPE_EDOCMAN</option>
 				</field>
+				<field name="note_headings" type="note" class="alert alert-info"
+					label="PLG_SYSTEM_DOCTIDY_NOTE_HEADINGS_LABEL" description="PLG_SYSTEM_DOCTIDY_NOTE_HEADINGS_DESC" />
 				<field name="single_h1_document" type="radio" layout="joomla.form.field.radio.switcher" default="1"
 					label="PLG_SYSTEM_DOCTIDY_SINGLE_H1_LABEL" description="PLG_SYSTEM_DOCTIDY_SINGLE_H1_DESC">
 					<option value="0">JNO</option>
@@ -46,18 +50,20 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				<field name="list_headline_class" type="text" default="doctidy-headline" showon="list_headlines:1"
+				<field name="list_headline_class" type="text" default="doctidy-headline" hint="doctidy-headline" showon="list_headlines:1"
 					label="PLG_SYSTEM_DOCTIDY_LIST_HEADLINE_CLASS_LABEL" description="PLG_SYSTEM_DOCTIDY_LIST_HEADLINE_CLASS_DESC" />
+				<field name="note_titles" type="note" class="alert alert-info"
+					label="PLG_SYSTEM_DOCTIDY_NOTE_TITLES_LABEL" description="PLG_SYSTEM_DOCTIDY_NOTE_TITLES_DESC" />
 				<field name="title_rewrite" type="radio" layout="joomla.form.field.radio.switcher" default="0"
 					label="PLG_SYSTEM_DOCTIDY_TITLE_LABEL" description="PLG_SYSTEM_DOCTIDY_TITLE_DESC">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				<field name="title_prefix" type="text" default="" filter="raw" showon="title_rewrite:1"
+				<field name="title_prefix" type="text" default="" filter="raw" hint="PLG_SYSTEM_DOCTIDY_TITLE_PREFIX_HINT" showon="title_rewrite:1"
 					label="PLG_SYSTEM_DOCTIDY_TITLE_PREFIX_LABEL" description="PLG_SYSTEM_DOCTIDY_TITLE_PREFIX_DESC" />
-				<field name="title_suffix_category" type="text" default="" filter="raw" showon="title_rewrite:1"
+				<field name="title_suffix_category" type="text" default="" filter="raw" hint="PLG_SYSTEM_DOCTIDY_TITLE_SUFFIX_CATEGORY_HINT" showon="title_rewrite:1"
 					label="PLG_SYSTEM_DOCTIDY_TITLE_SUFFIX_CATEGORY_LABEL" description="PLG_SYSTEM_DOCTIDY_TITLE_SUFFIX_CATEGORY_DESC" />
-				<field name="title_suffix_document" type="text" default="" filter="raw" showon="title_rewrite:1"
+				<field name="title_suffix_document" type="text" default="" filter="raw" hint="PLG_SYSTEM_DOCTIDY_TITLE_SUFFIX_DOCUMENT_HINT" showon="title_rewrite:1"
 					label="PLG_SYSTEM_DOCTIDY_TITLE_SUFFIX_DOCUMENT_LABEL" description="PLG_SYSTEM_DOCTIDY_TITLE_SUFFIX_DOCUMENT_DESC" />
 			</fieldset>
 		</fields>

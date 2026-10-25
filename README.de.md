@@ -4,6 +4,26 @@ Kleines, konfigurierbares Plugin, das die Seitenausgabe aufräumt – nutzbar au
 
 [English documentation](README.md) · [Changelog](CHANGELOG.md) · Lizenz: GPL-2.0-or-later
 
+## Warum DocTidy?
+
+Entstanden ist DocTidy beim Relaunch eines Joomla-6-Webauftritts mit EDocman als Dokumentenarchiv. Bei der technischen Prüfung fielen drei Dinge auf, die viele Joomla-Seiten betreffen und mit Bordmitteln nicht sauber zu lösen waren:
+
+1. **Unbemerkte Datenübertragung an Dritte.** EDocman bindet die Symbolschrift Font Awesome fest im Programmcode von einem öffentlichen CDN ein (`cdnjs.cloudflare.com`), und zwar auf allen Archivseiten. Jeder Besucher schickt damit seine IP-Adresse an einen fremden Server, ohne gefragt zu werden. Nach DSGVO braucht das eine Einwilligung. Ein Cookie-Banner fängt es nicht ab, weil es sich um eine normale Stylesheet-Einbindung handelt. Dabei bringt Joomla dieselbe Schrift längst selbst mit.
+2. **Mehrere Hauptüberschriften pro Seite.** EDocman gibt auf Dokumentseiten den Titel zweimal als `<h1>` aus, einmal für Desktop und einmal für Handy. In Dokumentlisten erzeugt jede Kurzbeschreibung mit Überschrift eine weitere `<h1>`. Eine Jahresübersicht kam so auf sechs und mehr Hauptüberschriften. Das schadet der Suchmaschinen-Optimierung und verwirrt Vorleseprogramme für Sehbehinderte.
+3. **Wenig aussagekräftige Seitentitel.** EDocman setzt den Seitennamen vor den Dokumentnamen („Meine Seite - Newsletter 2026-10-18“). In Google-Ergebnissen steht so das Unwichtige vorne, und lange Titel werden abgeschnitten.
+
+Die naheliegenden Lösungen haben Nachteile:
+- Eigene Änderungen an EDocman gehen beim nächsten Update verloren.
+- Template-Overrides decken den fest eingebauten CDN-Link nicht ab und müssen bei jedem Update nachgepflegt werden.
+
+**DocTidy setzt deshalb ganz am Ende an:** Es korrigiert die fertig erzeugte Seite, kurz bevor sie an den Browser geht. Keine fremde Datei wird verändert, und Updates von Joomla, EDocman oder dem Template bleiben problemlos. Jede Korrektur ist eng gefasst. Ändert sich das HTML einer Erweiterung, greift sie einfach nicht mehr, und die Seite bleibt, wie sie ist. Jede Funktion lässt sich einzeln ein- und ausschalten.
+
+**Für wen ist das Plugin?**
+- Joomla-Seiten mit EDocman, die datenschutzfreundlich und suchmaschinengerecht sein sollen
+- jede Joomla-Seite ab Version 4, auf der ein Template oder eine Erweiterung Font Awesome von einem CDN lädt. Die Font-Awesome-Funktion arbeitet auch ohne EDocman.
+
+## Funktionen im Überblick
+
 | Funktion | Standard | Wirkung |
 |---|---|---|
 | Font Awesome lokal | an | Ersetzt Font-Awesome-Links von öffentlichen CDNs (cdnjs, jsDelivr, use.fontawesome.com, BootstrapCDN) durch die lokale Kopie, die Joomla mitbringt. **Datenschutz:** keine IP-Übertragung an Dritte. Wählbar: alle Seiten oder nur EDocman. |

@@ -4,6 +4,26 @@
 
 [Deutsche Anleitung](README.de.md) · [Changelog](CHANGELOG.md) · License: GPL-2.0-or-later
 
+## Why DocTidy?
+
+DocTidy was built during the relaunch of a Joomla 6 website that uses EDocman as its document archive. A technical review revealed three issues that affect many Joomla sites and could not be solved cleanly with built-in tools:
+
+1. **Unnoticed data transfer to third parties.** EDocman hard-codes the Font Awesome icon font from a public CDN (`cdnjs.cloudflare.com`) – on every archive page. Every visitor sends their IP address to a third-party server without being asked. Under the GDPR this requires consent, and a cookie banner does not catch it because it is a plain stylesheet include. Yet Joomla already ships the very same font.
+2. **Several main headings per page.** On document pages EDocman prints the title twice as `<h1>` (desktop and mobile). In document lists, every short description that starts with a heading adds another `<h1>` – a yearly overview ended up with six or more. That hurts SEO and confuses screen readers.
+3. **Weak page titles.** EDocman puts the site name before the document name ("My Site - Newsletter 2026-10-18"), so the unimportant part comes first in search results and long titles get cut off.
+
+The obvious fixes all have drawbacks:
+- Patching EDocman is lost with the next update.
+- Template overrides do not cover the hard-coded CDN link and need maintenance after every update.
+
+**DocTidy therefore works at the very end:** it corrects the finished page right before it is sent to the browser. It changes no third-party files, so updates of Joomla, EDocman or your template remain painless. Every correction is narrow – if an extension's HTML changes, it simply stops matching and the page stays as it is – and every feature can be switched on or off individually.
+
+**Who is it for?**
+- Joomla sites with EDocman that want to be privacy-friendly and search-engine friendly
+- any Joomla 4+ site where a template or extension loads Font Awesome from a CDN. The Font Awesome feature works without EDocman, too.
+
+## Features at a glance
+
 | Feature | Default | What it does |
 |---|---|---|
 | Font Awesome locally | on | Replaces Font Awesome stylesheets from public CDNs (cdnjs, jsDelivr, use.fontawesome.com, BootstrapCDN) with the copy Joomla ships in `media/vendor/fontawesome-free/`. No visitor IP address is sent to a third party. |

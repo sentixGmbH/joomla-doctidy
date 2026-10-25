@@ -31,7 +31,10 @@ return new class () implements ServiceProviderInterface {
                     ? new DocTidy($config)
                     : new DocTidy($container->get(DispatcherInterface::class), $config);
 
-                $plugin->setApplication(Factory::getApplication());
+                // setApplication() exists since Joomla 4.2; older versions use Factory (see DocTidy::app())
+                if (method_exists($plugin, 'setApplication')) {
+                    $plugin->setApplication(Factory::getApplication());
+                }
 
                 return $plugin;
             }
